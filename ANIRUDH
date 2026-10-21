@@ -1,3 +1,7 @@
+Aim: - To implement a Java-based Log Processor Simulator using the MapReduce programming model to analyze server log data, calculate the total active time of each user, and identify the user with the maximum active time.
+
+Description:- The program simulates the three phases of MapReduce: Map, Shuffle and Sort, and Reduce. In the Map phase, server log records are processed to extract usernames, login/logout actions, and timestamps. In the Shuffle and Sort phase, intermediate key-value pairs are grouped by username. In the Reduce phase, the timestamp values are aggregated to calculate each user's total active time, and the user with the maximum active time is identified.
+The program uses Java collections and Streams to simulate Hadoop's MapReduce workflow without requiring an actual Hadoop cluster.
 
 import java.util.*;
 import java.util.stream.Collectors;
