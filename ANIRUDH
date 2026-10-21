@@ -4,147 +4,70 @@ import java.util.stream.Collectors;
 
 public class LogProcessorSimulator {
 
-    // Simulating a log dataset
-    private static final String LOG_DATA =
-        "User:alice ip:192.168.1.5 action:LOGIN time:1714982400\n" +
-        "User:bob ip:192.168.1.12 action:LOGIN time:1714982450\n" +
-        "User:alice ip:192.168.1.5 action:LOGOUT time:1714985100\n" +
-        "User:charlie ip:192.168.1.9 action:LOGIN time:1714986000\n" +
-        "User:bob ip:192.168.1.12 action:LOGOUT time:1714989650\n" +
-        "User:alice ip:192.168.1.5 action:LOGIN time:1714989000\n" +
-        "User:charlie ip:192.168.1.9 action:LOGOUT time:1715012600\n" +
-        "User:alice ip:192.168.1.5 action:LOGOUT time:1714996200";
-
-    // Data structure to hold intermediate key-value pairs
-    static class KeyValue {
-        String user;
-        long timestampWeight;
-
-        KeyValue(String user, long timestampWeight) {
-            this.user = user;
-            this.timestampWeight = timestampWeight;
-        }
-    }
-
     public static void main(String[] args) {
 
-        String[] logLines = LOG_DATA.split("\\n");
-        List<KeyValue> mapOutput = new ArrayList<>();
+        String[] logs = {
+            "alice LOGIN 1000",
+            "alice LOGOUT 1600",
+            "bob LOGIN 2000",
+            "bob LOGOUT 3500",
+            "charlie LOGIN 3000",
+            "charlie LOGOUT 7000"
+        };
 
-        // PHASE 1: MAP PHASE
-        System.out.println("=== 1. MAP PHASE ===");
+        // 1. MAP PHASE
+        Map<String, List<Long>> map = new HashMap<>();
 
-        for (String line : logLines) {
+        for (String log : logs) {
+            String[] data = log.split(" ");
+            String user = data[0];
+            String action = data[1];
+            long time = Long.parseLong(data[2]);
 
-            if (line.trim().isEmpty()) {
-                continue;
-            }
+            long value = action.equals("LOGIN") ? -time : time;
 
-            String[] tokens = line.split("\\s+");
-
-            String username = "";
-            String action = "";
-            long timestamp = 0;
-
-            for (String token : tokens) {
-
-                if (token.startsWith("User:")) {
-                    username = token.substring(5);
-                }
-
-                if (token.startsWith("action:")) {
-                    action = token.substring(7);
-                }
-
-                if (token.startsWith("time:")) {
-                    timestamp = Long.parseLong(
-                        token.substring(5)
-                    );
-                }
-            }
-
-            if (!username.isEmpty()
-                    && !action.isEmpty()
-                    && timestamp > 0) {
-
-                long weight = action.equalsIgnoreCase("LOGIN")
-                        ? -timestamp
-                        : timestamp;
-
-                mapOutput.add(
-                    new KeyValue(username, weight)
-                );
-
-                System.out.printf(
-                    "Mapped: Key = %-8s | Value = %d (%s)%n",
-                    username, weight, action
-                );
-            }
+            map.computeIfAbsent(user, k -> new ArrayList<>())
+               .add(value);
         }
 
-        // PHASE 2: SHUFFLE AND SORT PHASE
-        System.out.println(
-            "\n=== 2. SHUFFLE & SORT PHASE ==="
-        );
+        System.out.println("1. MAP PHASE");
+        map.forEach((user, values) ->
+            System.out.println(user + " -> " + values));
 
-        Map<String, List<Long>> shuffledData =
-            mapOutput.stream()
-                .collect(Collectors.groupingBy(
-                    kv -> kv.user,
-                    TreeMap::new,
-                    Collectors.mapping(
-                        kv -> kv.timestampWeight,
-                        Collectors.toList()
-                    )
-                ));
+        // 2. SHUFFLE AND SORT PHASE
+        Map<String, List<Long>> grouped = map.entrySet()
+            .stream()
+            .collect(Collectors.toMap(
+                Map.Entry::getKey,
+                Map.Entry::getValue,
+                (a, b) -> a,
+                TreeMap::new
+            ));
 
-        shuffledData.forEach((user, weights) ->
-            System.out.printf(
-                "Grouped User: %-8s -> Values: %s%n",
-                user, weights
-            )
-        );
+        System.out.println("\n2. SHUFFLE AND SORT PHASE");
+        grouped.forEach((user, values) ->
+            System.out.println(user + " -> " + values));
 
-        // PHASE 3: REDUCE PHASE
-        System.out.println(
-            "\n=== 3. REDUCE PHASE (Final Metrics) ==="
-        );
+        // 3. REDUCE PHASE
+        System.out.println("\n3. REDUCE PHASE");
 
         String topUser = "";
-        long maxDuration = -1;
+        long max = -1;
 
-        for (Map.Entry<String, List<Long>> entry
-                : shuffledData.entrySet()) {
+        for (String user : grouped.keySet()) {
+            long total = grouped.get(user).stream()
+                                .mapToLong(Long::longValue)
+                                .sum();
 
-            String user = entry.getKey();
+            System.out.println(user + " = " + total + " seconds");
 
-            long totalSeconds = entry.getValue()
-                .stream()
-                .mapToLong(Long::longValue)
-                .sum();
-
-            System.out.printf(
-                "Reduced: User = %-8s | Total Active Time = %d seconds%n",
-                user, totalSeconds
-            );
-
-            if (totalSeconds > maxDuration) {
-                maxDuration = totalSeconds;
+            if (total > max) {
+                max = total;
                 topUser = user;
             }
         }
 
-        System.out.println(
-            "\n========================================"
-        );
-
-        System.out.printf(
-            "MAXIMUM ACTIVE USER: %s (%d seconds)%n",
-            topUser.toUpperCase(), maxDuration
-        );
-
-        System.out.println(
-            "========================================"
-        );
+        System.out.println("\nMaximum active user: " + topUser);
+        System.out.println("Total active time: " + max + " seconds");
     }
 }
