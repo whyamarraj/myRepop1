@@ -1,115 +1,150 @@
-========================================>>>>>>>>>>>> SCAN DISK
-#include <stdio.h> 
-#include<math.h>
-#include<stdlib.h>
-void scanDiskSchedule(int request[], int n, int head) { 
-    int seekCount = 0; 
-    int direction = 1; // 1 for right, 0 for left 
-    // Sort the request array in ascending order 
-    for (int i = 0; i < n; i++) { 
-        for (int j = 0; j < n - i - 1; j++) { 
-            if (request[j] > request[j + 1]) { 
-                int temp = request[j]; 
-                request[j] = request[j + 1]; 
-                request[j + 1] = temp; 
-            } 
-        } 
-    } 
-    // Move the head in the specified direction 
-    for (int i = 0; i < n; i++) { 
-        if (direction == 1) { 
-            // Moving to the right 
-            seekCount += abs(head - request[i]); 
-            head = request[i]; 
-        } else { 
-            // Moving to the left 
-            seekCount += abs(head - request[i]); 
-            head = request[i]; 
-        } 
-    } 
-    printf("Total seek count: %d\n", seekCount); 
-} 
-int main() { 
-int request[] = {53, 183, 37, 122, 14, 124, 65, 67}; 
-int n = sizeof(request) / sizeof(request[0]); 
-int head = 53; 
-printf("Initial head position: %d\n", head); 
-printf("Request queue: "); 
-for (int i = 0; i < n; i++) { 
-printf("%d ", request[i]); 
-} 
-printf("\n"); 
-scanDiskSchedule(request, n, head); 
-return 0; 
-}
 
-========================================>>>>>>>>>>>> FCFS
-#include<stdio.h>
-int main()
-{
-            int queue[20],n,head,i,j,k,seek=0,max,diff;
-            float avg;
-            printf("Enter the max range of disk\n");
-            scanf("%d",&max);
-            printf("Enter the size of queue request\n");
-            scanf("%d",&n);
-            printf("Enter the queue of disk positions to be read\n");
-            for(i=1;i<=n;i++)
-            scanf("%d",&queue[i]);
-            printf("Enter the initial head position\n");
-            scanf("%d",&head);
-            queue[0]=head;
-            for(j=0;j<=n-1;j++)
-            {
-                        diff=abs(queue[j+1]-queue[j]);
-                        seek+=diff;
-printf("Disk head moves from %d to %d with seek %d\n",queue[j],queue[j+1],diff);
-            
-            printf("Total seek time is %d\n",seek);
-            avg=seek/(float)n;
-            printf("Average seek time is %f\n",avg);
-            return 0;
-}
+import java.util.*;
+import java.util.stream.Collectors;
 
-========================================>>>>>>>>>>>> PAGING
-#include <stdio.h>
-int main() 
-{
-    int page_size, num_pages;
-    // Input page size and number of pages
-    printf("Enter page size: ");
-    scanf("%d", &page_size);
-    printf("Enter number of pages: ");
-    scanf("%d", &num_pages);
-    int page_table[num_pages];
-    // Input page table
-    printf("Enter frame number for each page:\n");
-    for(int i = 0; i < num_pages; i++) {
-        printf("Page %d -> Frame: ", i);
-        scanf("%d", &page_table[i]);
+public class LogProcessorSimulator {
+
+    // Simulating a log dataset
+    private static final String LOG_DATA =
+        "User:alice ip:192.168.1.5 action:LOGIN time:1714982400\n" +
+        "User:bob ip:192.168.1.12 action:LOGIN time:1714982450\n" +
+        "User:alice ip:192.168.1.5 action:LOGOUT time:1714985100\n" +
+        "User:charlie ip:192.168.1.9 action:LOGIN time:1714986000\n" +
+        "User:bob ip:192.168.1.12 action:LOGOUT time:1714989650\n" +
+        "User:alice ip:192.168.1.5 action:LOGIN time:1714989000\n" +
+        "User:charlie ip:192.168.1.9 action:LOGOUT time:1715012600\n" +
+        "User:alice ip:192.168.1.5 action:LOGOUT time:1714996200";
+
+    // Data structure to hold intermediate key-value pairs
+    static class KeyValue {
+        String user;
+        long timestampWeight;
+
+        KeyValue(String user, long timestampWeight) {
+            this.user = user;
+            this.timestampWeight = timestampWeight;
+        }
     }
-    int logical_address;
-    // Input logical address
-    printf("\nEnter logical address: ");
-    scanf("%d", &logical_address);
-    // Calculate page number and offset
-    int page_number = logical_address / page_size;
-    int offset = logical_address % page_size;
 
-    // Check for valid page number
-    if(page_number >= num_pages) {
-        printf("Error: Invalid logical address (Page number out of range)\n");
-        return 1;
+    public static void main(String[] args) {
+
+        String[] logLines = LOG_DATA.split("\\n");
+        List<KeyValue> mapOutput = new ArrayList<>();
+
+        // PHASE 1: MAP PHASE
+        System.out.println("=== 1. MAP PHASE ===");
+
+        for (String line : logLines) {
+
+            if (line.trim().isEmpty()) {
+                continue;
+            }
+
+            String[] tokens = line.split("\\s+");
+
+            String username = "";
+            String action = "";
+            long timestamp = 0;
+
+            for (String token : tokens) {
+
+                if (token.startsWith("User:")) {
+                    username = token.substring(5);
+                }
+
+                if (token.startsWith("action:")) {
+                    action = token.substring(7);
+                }
+
+                if (token.startsWith("time:")) {
+                    timestamp = Long.parseLong(
+                        token.substring(5)
+                    );
+                }
+            }
+
+            if (!username.isEmpty()
+                    && !action.isEmpty()
+                    && timestamp > 0) {
+
+                long weight = action.equalsIgnoreCase("LOGIN")
+                        ? -timestamp
+                        : timestamp;
+
+                mapOutput.add(
+                    new KeyValue(username, weight)
+                );
+
+                System.out.printf(
+                    "Mapped: Key = %-8s | Value = %d (%s)%n",
+                    username, weight, action
+                );
+            }
+        }
+
+        // PHASE 2: SHUFFLE AND SORT PHASE
+        System.out.println(
+            "\n=== 2. SHUFFLE & SORT PHASE ==="
+        );
+
+        Map<String, List<Long>> shuffledData =
+            mapOutput.stream()
+                .collect(Collectors.groupingBy(
+                    kv -> kv.user,
+                    TreeMap::new,
+                    Collectors.mapping(
+                        kv -> kv.timestampWeight,
+                        Collectors.toList()
+                    )
+                ));
+
+        shuffledData.forEach((user, weights) ->
+            System.out.printf(
+                "Grouped User: %-8s -> Values: %s%n",
+                user, weights
+            )
+        );
+
+        // PHASE 3: REDUCE PHASE
+        System.out.println(
+            "\n=== 3. REDUCE PHASE (Final Metrics) ==="
+        );
+
+        String topUser = "";
+        long maxDuration = -1;
+
+        for (Map.Entry<String, List<Long>> entry
+                : shuffledData.entrySet()) {
+
+            String user = entry.getKey();
+
+            long totalSeconds = entry.getValue()
+                .stream()
+                .mapToLong(Long::longValue)
+                .sum();
+
+            System.out.printf(
+                "Reduced: User = %-8s | Total Active Time = %d seconds%n",
+                user, totalSeconds
+            );
+
+            if (totalSeconds > maxDuration) {
+                maxDuration = totalSeconds;
+                topUser = user;
+            }
+        }
+
+        System.out.println(
+            "\n========================================"
+        );
+
+        System.out.printf(
+            "MAXIMUM ACTIVE USER: %s (%d seconds)%n",
+            topUser.toUpperCase(), maxDuration
+        );
+
+        System.out.println(
+            "========================================"
+        );
     }
-    // Get frame number from page table
-    int frame_number = page_table[page_number];
-    // Calculate physical address
-    int physical_address = (frame_number * page_size) + offset;
-    // Output results
-    printf("\nPage Number: %d\n", page_number);
-    printf("Offset: %d\n", offset);
-    printf("Frame Number: %d\n", frame_number);
-    printf("Physical Address: %d\n", physical_address);
-
-    return 0;
 }
