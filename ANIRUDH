@@ -1,77 +1,642 @@
-Aim: - To implement a Java-based Log Processor Simulator using the MapReduce programming model to analyze server log data, calculate the total active time of each user, and identify the user with the maximum active time.
+========================================================= PROGRAM 4 =========================================================
+Aim: 
+To implement the Test-Driven Development (TDD) for a Software Module using Unit Testing. 
+Objective: 
+To understand and implement the concept of Test-Driven Development (TDD) by writing unit 
+tests before developing the actual code, thus ensuring software quality and reducing bugs early 
+in the development process. 
+Problem Statement: 
+Develop a simple calculator application that performs basic arithmetic operations such as 
+addition, subtraction, multiplication and division. Implement the functionality by writing test 
+cases first using a unit testing framework (like unittest in Python or JUnit in Java), following 
+the principles of TDD. 
+Description: 
+Test-Driven Development (TDD) 
+TDD is a software development approach where: 
+1. Tests are written before the actual code. 
+2. Code is written only to pass the failing tests. 
+3. The cycle repeats with refactoring for optimization. 
+Test Driven Development (TDD) is a software development process where test cases are 
+written before writing the actual code. The typical TDD cycle follows these steps: 
+ Red: Write a failing test case for the desired functionality. 
+ Green: Write the minimum amount of code to make the test pass. 
+ Refactor: Improve the code structure without changing its functionality 
+Procedure: 
+1. Identify a small piece of functionality to implement (e.g., addition). 
+2. Write a test case that defines the expected behavior for that functionality. 
+3. Run the test case – it should fail (Red). 
+4. Write just enough code to make the test pass (Green). 
+5. Run all tests to ensure they pass. 
+6. Refactor the code to improve structure while keeping the tests green. 
+7. Repeat steps 1–6 for the remaining features.
+Step-by-Step TDD Implementation 
+Step 1: Setup Testing Environment 
+Install Python Extension in VS Code 
+Make sure you have: 
+ Python installed on your machine 
+ Python extension installed in VS Code 
+Step 2: Write a Failing Test (Red Phase) 
+# test_calculator.py 
+import unittest 
+from calculator import Calculator 
+def test_add(): 
+    calc = Calculator() 
+    assert calc.add(2, 3) == 5 # Expected to fail (Calculator not implemented yet) 
+Step 3: Implement Minimal Code to Pass Test (Green Phase) 
+# calculator.py 
+class Calculator: 
+    def add(self, a, b): 
+        return a + b # Just enough to pass the test 
+Step 4: Run Tests 
+pytest test_calculator.py -v 
+Step 5: Repeat for other methods 
+ Write failing test → Implement minimal code → Refactor. 
+ Example for divide() with error handling: 
+====>>>(calculator.py)
+def add(a, b):
+    return a + b
 
-Description:- The program simulates the three phases of MapReduce: Map, Shuffle and Sort, and Reduce. In the Map phase, server log records are processed to extract usernames, login/logout actions, and timestamps. In the Shuffle and Sort phase, intermediate key-value pairs are grouped by username. In the Reduce phase, the timestamp values are aggregated to calculate each user's total active time, and the user with the maximum active time is identified.
-The program uses Java collections and Streams to simulate Hadoop's MapReduce workflow without requiring an actual Hadoop cluster...
+def subtract(a, b):
+    return a - b
 
-import java.util.*;
-import java.util.stream.Collectors;
+def multiply(a, b):
+    return a * b
 
-public class LogProcessorSimulator {
+def divide(a, b):
+    if b == 0:
+        raise ValueError("Division by zero is not allowed")
+    return a / b
 
-    public static void main(String[] args) {
+===>>(test_calculator.py)
+import unittest
+import calculator
 
-        String[] logs = {
-            "alice LOGIN 1000",
-            "alice LOGOUT 1600",
-            "bob LOGIN 2000",
-            "bob LOGOUT 3500",
-            "charlie LOGIN 3000",
-            "charlie LOGOUT 7000"
-        };
+class TestCalculator(unittest.TestCase):
+    def test_add(self):
+        self.assertEqual(calculator.add(2, 3), 5)
+        self.assertEqual(calculator.add(-1, 1), 0)
+        self.assertEqual(calculator.add(0, 0), 0)
 
-        // 1. MAP PHASE
-        Map<String, List<Long>> map = new HashMap<>();
+    def test_subtract(self):
+        self.assertEqual(calculator.subtract(10, 5), 5)
+        self.assertEqual(calculator.subtract(0, 7), -7)
+        self.assertEqual(calculator.subtract(7, 0), 7)
 
-        for (String log : logs) {
-            String[] data = log.split(" ");
-            String user = data[0];
-            String action = data[1];
-            long time = Long.parseLong(data[2]);
+    def test_multiply(self):
+        self.assertEqual(calculator.multiply(3, 4), 12)
+        self.assertEqual(calculator.multiply(-2, 5), -10)
+        self.assertEqual(calculator.multiply(0, 5), 0)
 
-            long value = action.equals("LOGIN") ? -time : time;
+    def test_divide(self):
+        self.assertEqual(calculator.divide(10, 2), 5)
+        self.assertEqual(calculator.divide(9, 3), 3)
+        self.assertAlmostEqual(calculator.divide(1, 3), 0.3333333, places=6)
 
-            map.computeIfAbsent(user, k -> new ArrayList<>())
-               .add(value);
-        }
+    def test_divide_by_zero(self):
+        with self.assertRaises(ValueError):
+            calculator.divide(10, 0)
 
-        System.out.println("1. MAP PHASE");
-        map.forEach((user, values) ->
-            System.out.println(user + " -> " + values));
+if __name__ == '__main__':
+    unittest.main()
 
-        // 2. SHUFFLE AND SORT PHASE
-        Map<String, List<Long>> grouped = map.entrySet()
-            .stream()
-            .collect(Collectors.toMap(
-                Map.Entry::getKey,
-                Map.Entry::getValue,
-                (a, b) -> a,
-                TreeMap::new
-            ));
+Conclusion: 
+ The above program demonstrated the practice of Test-Driven Development where test 
+cases were written before the implementation of logic. This approach led to better design, fewer 
+bugs and a more reliable codebase. The unit test cases were successfully implemented using 
+the TDD approach. All tests passed, validating that the calculator functions work as intended.
 
-        System.out.println("\n2. SHUFFLE AND SORT PHASE");
-        grouped.forEach((user, values) ->
-            System.out.println(user + " -> " + values));
+========================================================= PROGRAM 5 =========================================================
+Aim: 
+To implement a software solution that demonstrates the application of design principles and 
+refactoring techniques in order to improve code quality, maintainability and agility in software 
+development. 
+Objective: 
+The objective of this experiment is to understand how applying software design 
+principles (such as SOLID, DRY and OCP) along with refactoring techniques improves the 
+flexibility, maintainability and readability of code. 
+Problem Statement: 
+In agile development, code evolves over time due to changing requirements. Without proper 
+design principles and refactoring, the codebase may become rigid, difficult to maintain and 
+prone to bugs. The task is to write a program that initially has poor design and then apply design 
+principles and refactoring to make the program more flexible, maintainable and adaptable to 
+future changes. 
+Description: 
+1. Design Principles for Agility 
+Design principles are fundamental guidelines that help in writing clean, maintainable and 
+scalable code. Common principles include: 
+Open/Closed Principle: 
+Design modules to be open for extension but closed for modification, enabling new 
+features without changing existing code. 
+Single Responsibility Principle (SRP): 
+In states that a class or module should have only one reason to change. This means it 
+should have only one responsibility or purpose. 
+Encapsulation: 
+It hide the internal details using classes or functions. Expose only what is necessary. 
+This enables changes without affecting other components.  
+DRY (Don’t Repeat Yourself): 
+It is used to eliminate duplicate code by using functions, classes, or reusable modules. 
+Updates only need to be made in one place. 
+These principles reduce coupling, improve code readability and support agility. 
+2. Refactoring Techniques 
+Refactoring is the process of restructuring existing code without changing its external behavior. 
+Purpose: It improves design, remove code smells, enhance readability and make future 
+changes easier. 
+Common Techniques: 
+Rename for Clarity: It improve variable, method and class names. 
+Extract Method: It breaks large methods into smaller, reusable functions. 
+Inline Temporary Variables: It eliminates redundant variables. 
+Remove Dead Code: Clear unused functions or blocks. 
+Replace Magic Numbers with Constants: Use meaningful constant names. 
+By applying design principles and refactoring, we ensure that the code remains agile, that 
+means it can adapt to new requirements quickly without major rewrites. 
+Algorithm 
+1. Identify Poorly Designed Code: 
+ Write a simple program that violates SRP, OCP and other principles (e.g., one 
+class doing too many tasks). 
+2. Analyze Code Smells: 
+ Look for long methods, duplicate code, high coupling, low cohesion or hard
+coded values. 
+3. Apply Refactoring Steps: 
+ Break large classes into smaller ones (SRP). 
+ Introduce interfaces or abstract classes for extension (OCP). 
+ Remove duplicated logic by extracting methods. 
+ Rename variables/methods to be meaningful. 
+4. Verify Behavior: 
+ Test the program after each refactoring to ensure output remains the same. 
+5. Document Changes: 
+ Record initial problems and improvements after applying design principles.
+====>>(bad_calculator.py)
+class Calculator:
+    def calculate(self, a, b, operation):
+        if operation == "add":
+            return a + b
+        elif operation == "subtract":
+            return a - b
+        elif operation == "multiply":
+            return a * b
+        elif operation == "divide":
+            if b == 0:
+                raise ValueError("Division by zero!")
+            return a / b
+        else:
+            raise ValueError("Invalid operation")
 
-        // 3. REDUCE PHASE
-        System.out.println("\n3. REDUCE PHASE");
+# Example usage
+if __name__ == "__main__":
+    calc = Calculator()
+    print("10 + 5 =", calc.calculate(10, 5, "add"))
+    print("10 - 5 =", calc.calculate(10, 5, "subtract"))
+    print("10 * 5 =", calc.calculate(10, 5, "multiply"))
+    print("10 / 5 =", calc.calculate(10, 5, "divide"))
 
-        String topUser = "";
-        long max = -1;
+==>> (refactored_calculator.py)
+from abc import ABC, abstractmethod
 
-        for (String user : grouped.keySet()) {
-            long total = grouped.get(user).stream()
-                                .mapToLong(Long::longValue)
-                                .sum();
+# Base abstract class (Abstraction)
+class Operation(ABC):
+    @abstractmethod
+    def execute(self, a, b):
+        pass
 
-            System.out.println(user + " = " + total + " seconds");
+# Individual operation classes (SRP applied)
+class Add(Operation):
+    def execute(self, a, b):
+        return a + b
 
-            if (total > max) {
-                max = total;
-                topUser = user;
-            }
-        }
+class Subtract(Operation):
+    def execute(self, a, b):
+        return a - b
 
-        System.out.println("\nMaximum active user: " + topUser);
-        System.out.println("Total active time: " + max + " seconds");
-    }
-}
+class Multiply(Operation):
+    def execute(self, a, b):
+        return a * b
+
+class Divide(Operation):
+    def execute(self, a, b):
+        if b == 0:
+            raise ValueError("Division by zero!")
+        return a / b
+
+# Calculator uses composition (OCP applied)
+class Calculator:
+    def __init__(self, operation: Operation):
+        self.operation = operation
+
+    def calculate(self, a, b):
+        return self.operation.execute(a, b)
+
+# Example usage
+if __name__ == "__main__":
+    add_calc = Calculator(Add())
+    print("10 + 5 =", add_calc.calculate(10, 5))
+
+    sub_calc = Calculator(Subtract())
+    print("10 - 5 =", sub_calc.calculate(10, 5))
+
+    mul_calc = Calculator(Multiply())
+    print("10 * 5 =", mul_calc.calculate(10, 5))
+
+    div_calc = Calculator(Divide())
+    print("10 / 5 =", div_calc.calculate(10, 5))
+Conclusion :
+The above program concluded that applying design principles ensures cleaner and more 
+modular code, while refactoring enhances the internal structure without changing functionality. 
+Together, they make the codebase more adaptable and improve testability. This promotes agile 
+practices by enabling quick responses to change and deliver of high-quality software within 
+shorter iterations.
+
+========================================================= PROGRAM 6 =========================================================
+Aim: 
+To study and understand the concept, working and benefits of automated build tools used in 
+software development for compiling, testing and deploying applications automatically. 
+Objective: 
+To understand the concept, features and usage of automated build tool and their role in software 
+development. 
+Problem Statement: 
+In modern software development, projects often involve multiple source files, libraries, 
+dependencies and repetitive tasks such as compilation, packaging, testing and deployment. 
+Doing these tasks manually is error-prone, time-consuming and inconsistent. An automated 
+build tool simplifies the process by automating these tasks and ensuring consistent builds. 
+Description: 
+1. Introduction to Automated Build Tools 
+An automated build tool is software that automates the process of converting source code into 
+executable applications. 
+It handles tasks such as: 
+ Compiling source code 
+ Managing dependencies 
+ Running automated tests 
+ Packaging and deploying applications 
+ Generating documentation 
+This automation ensures faster development, fewer errors and better consistency in builds. 
+2. Commonly Used Automated Build Tools 
+ Maven – Java-based project build & dependency management tool. 
+ tox – Automates testing in multiple environments. 
+ invoke – Task execution tool (similar to Make). 
+ nox – Similar to tox, but more flexible. 
+ Poetry – Dependency management and packaging tool. 
+ Gradle – Flexible build automation tool supporting multiple languages. 
+ Ant – Java-based build tool with XML configuration. 
+ Make – Build automation tool for C/C++ projects. 
+ NPM Scripts – For JavaScript/Node.js projects.
+3. Features of Automated Build Tools 
+1. Dependency Management – It automatically downloads required libraries. 
+2. Task Automation – It builds, tests and packages code without manual steps. 
+3. Incremental Builds – It only rebuilds changed files to save time. 
+4. Integration with CI/CD – Works with Jenkins, GitHub Actions, etc. 
+5. Cross-Platform Support – It can run on Windows, Linux, Mac. 
+Procedure (Example using tox) 
+1. Install Python and pip. 
+2. Install tox: 
+pip install tox  
+3. Create a sample Python project with: 
+ hello.py (main script) 
+ test_hello.py (test file) 
+4. Create a tox.ini configuration file to define environments and test commands. 
+5. Run: 
+tox  
+6. Observe automated environment creation, dependency installation and test execution. 
+Example Implementation using tox 
+File: hello.py 
+def greet(name): return f"Hello, {name}!"  
+File: test_hello.py 
+from hello import greet 
+def test_greet(): assert greet("Python") == "Hello, Python!"  
+File: tox.ini 
+[tox]  
+envlist = py313  
+[testenv]  
+deps =  
+pytest  
+commands =  
+python -m pytest
+Steps to Run 
+1. Install tox: 
+pip install tox  
+2. Run build and test: 
+tox 
+Conclusion: 
+Automated build tools in Python like tox, nox and poetry streamline development by 
+automating testing, dependency management and packaging. They improve productivity, 
+ensure consistency across environments and are essential in agile and CI/CD workflows.
+
+========================================================= PROGRAM 7 =========================================================
+Aim: 
+To study and understand the tracking, managing and control changes to code by using version 
+control tools. 
+Objective: 
+To understand the concept, features and usage of Version Control Tools (such as Git) and their 
+role in software development. 
+Problem statement: 
+In software development, maintaining and tracking different versions of code manually is 
+difficult and error-prone. Collaboration among multiple developers often leads to conflicts and 
+loss of updates. To solve this, version control tools like Git are used to manage versions, ensure 
+collaboration and provide backup. 
+Description: 
+Version Control Tools are software systems that help track, manage and control changes to 
+code or documents. They enable multiple developers to collaborate effectively by maintaining 
+a history of changes, allowing rollback to previous versions and resolving conflicts. 
+Types: 
+1. Centralized Version Control (CVCS): Single server stores all versions (e.g., 
+Subversion, CVS). 
+2. Distributed Version Control (DVCS): Each developer has a local copy of the 
+repository (e.g., Git, Mercurial). 
+Features of Version Control Tools: 
+ Track history of changes. 
+ Branching and merging support. 
+ Collaboration among team members. 
+ Backup and recovery of code. 
+ Conflict resolution mechanisms. 
+Procedure: 
+1. Install a version control tool (e.g., Git). 
+2. Configure Git with username and email. 
+3. Create a new repository (git init). 
+4. Add files to the repository (git add).
+5. Commit changes with a message (git commit). 
+6. Check history using (git log). 
+7. Create and switch branches (git branch, git checkout). 
+8. Merge branches (git merge). 
+9. Push and pull changes to/from a remote repository (GitHub). 
+Observation: 
+ Repository successfully initialized. 
+ Changes tracked and stored in commit history. 
+ Branches created and merged without data loss. 
+ Remote repository synchronization achieved. 
+OUTPUT: 
+1. To verify git installation: Git --version 
+2. Config git 
+a. git config --global user.name “namexyz” 
+b. git config --global user.email  “emailxyz” 
+3. To verify the configuration: git config --list 
+4. Now create or open a project folder  
+5. Initialize git repository: git init 
+6. Create a sample file in the project folder 
+7. Check git status: git status 
+8. Add file to staging area: git add filename 
+9. Commit changes: git commit -m filename 
+10. For connecting git to github 
+git remote add origin (repo ink)  
+git remote add origin https:/github.com/yourusername/github repo 
+name.git 
+11. Push code to GitHub  
+git branch -m master 
+git push -u origin master 
+Conclusion: 
+The study of version control tools (Git) demonstrated how developers can efficiently track 
+changes, collaborate in teams and maintain different versions of a project. It ensures better 
+software quality, reduces conflicts and provides backup for the codebase.
+
+========================================================= PROGRAM 8 =========================================================
+Aim: 
+To study and understand the working of a Continuous Integration (CI) tool (e.g., 
+Jenkins/GitLab CI/GitHub Actions) for automating the building, testing and integration of code 
+in a software development environment. 
+Objectives: 
+1. To learn the concept of Continuous Integration and its importance in software 
+development. 
+2. To set up and configure a CI tool to automate builds and testing. 
+3. To understand the pipeline stages – build, test, deploy. 
+4. To analyze the results and logs generated by the CI tool. 
+Problem Statement: 
+Manual integration of code from multiple developers often leads to conflicts, build failures, 
+and delays in software delivery. A CI tool is needed to automatically integrate code changes, 
+run tests and generate build artifacts to improve software quality and development speed. 
+Description: 
+Continuous Integration (CI) is a DevOps practice where code changes from all developers are 
+automatically integrated into a shared repository several times a day. Each integration triggers 
+an automated build and test process to detect integration issues early. 
+A CI tool (such as Jenkins) can: 
+ Pull code automatically from version control (like GitHub). 
+ Build the code into executables or deployable packages. 
+ Run automated tests to ensure code quality. 
+ Provide feedback to developers immediately.  
+This experiment involves installing or accessing a CI tool, connecting it to a version 
+control repository, configuring a build pipeline and observing the automation of the 
+build/test process. 
+Procedure: 
+1. Install/Access CI Tool: Install Jenkins (or use a cloud-based CI tool like GitHub 
+Actions). 
+2. Connect to Repository: Link the CI tool to a version control system (GitHub/GitLab). 
+3. Create a New Project/Pipeline: In the CI dashboard, create a new job or pipeline. 
+4. Configure Build Steps: 
+ Specify repository URL. 
+ Define build commands (compile/test). 
+5. Set Triggers: Enable automatic builds on each code commit or scheduled builds. 
+6. Run the Pipeline: Commit a change to the repository to trigger the pipeline. 
+7. Monitor Build and Test Results: View logs, test reports, and artifacts. 
+8. Analyze Outcomes: Check if the build succeeded and tests passed; troubleshoot if 
+errors occur. 
+Output: 
+ git clone <repo link> 
+ cd repo name 
+ mkdir -p .github/workflows 
+create a github action workflow folder  
+ code .github/workflows/deploy.yml 
+Add workflow content - add code into deploy.yml file 
+ git add filename 
+ git commit -m “messaage” 
+ git push origin master 
+ check github dashboard to check workflow at actions tab. 
+ then deploy code file running automatically. 
+Conclusion: 
+The experiment successfully demonstrated the use of a Continuous Integration tool to automate 
+building and testing of software whenever code changes occur. CI improves collaboration, 
+detects errors early and increases the overall efficiency of the software development process. 
+
+========================================================= PROGRAM 9 =========================================================
+Aim: 
+To study and perform testing activities in an Agile project environment, demonstrating how 
+testing is integrated into each iteration/sprint. 
+Objective: 
+1. To understand how testing is embedded in Agile sprints. 
+2. To plan and execute test cases concurrently with development. 
+3. To practice writing user stories and their acceptance criteria. 
+4. To run manual/automated tests as part of Agile iteration. 
+Problem Statement: 
+In traditional software development, testing occurs at the end of the lifecycle, leading to 
+late detection of defects and increased costs. Agile requires continuous testing within each 
+sprint to ensure working, high-quality increments. This experiment focuses on 
+implementing testing activities (planning, execution, automation) within an Agile iteration. 
+Description: 
+In Agile projects, testing is not a separate phase but an ongoing activity performed throughout 
+the sprint. Testers, developers and product owners collaborate to define acceptance 
+criteria for user stories. Testing activities include: 
+ Writing test cases alongside user stories. 
+ Performing unit testing, integration testing and acceptance testing within the 
+sprint. 
+ Using automation tools (like Selenium, JUnit, Pytest) to ensure quick feedback. 
+ Continuous integration ensures tests run automatically on each commit. 
+This experiment demonstrates how to take a small user story, write its acceptance criteria, 
+create test cases, execute them (manually or automatically) and record results within a sprint. 
+Procedure: 
+1. Select a User Story: Choose a small functionality (e.g., “As a user, I can log in to the 
+application”). 
+2. Define Acceptance Criteria: Document clear conditions for the story to be 
+considered “Done”. 
+3. Write Test Cases: Prepare test scenarios and cases based on acceptance criteria. 
+4. Develop the Feature: Developer implements the story during the sprint. 
+5. Perform Unit Tests: Run unit tests immediately after coding. 
+6. Perform Integration Tests: Verify the new functionality integrates with existing 
+modules. 
+7. Perform Acceptance Tests: Validate story against acceptance criteria with the 
+Product Owner. 
+8. Automate Tests (Optional): Use an automation tool (e.g., Selenium/Pytest) for 
+repetitive checks. 
+9. Log and Track Defects: Report issues in the Agile board (Jira/Trello). 
+10. Review During Sprint Review: Demonstrate the working story with test results. 
+Output: 
+User Story: As a user, I can log in to the application. 
+Acceptance Criteria: Verify that all acceptance criteria are met. 
+User can log in with valid credentials. 
+Error message shown for invalid login. 
+Login redirects to dashboard. 
+Test Summary: 
+Unit Tests: Show that individual code components work correctly (15 passed / 0 failed) 
+Integration Tests: Confirm the new feature works well with other modules (10 passed / 
+0 failed). 
+Acceptance Tests: Verify that all acceptance criteria are met. 
+Defects: any bugs or issues discovered during testing are: 
+ Logged in tools like Jira or Trello. 
+ Assigned to developers for fixing. 
+ Tracked until resolved. 
+Status: Story completed and accepted in Sprint Review. 
+Conclusion: 
+Testing activities were successfully performed within the Agile project during the sprint. 
+This demonstrated that Agile testing is continuous, collaborative, and aligned with user 
+stories, ensuring high quality and quick feedback for each increment of software.
+
+========================================================= PROGRAM 10 =========================================================
+Aim: 
+To install Jenkins and configure it to test and deploy Java or web applications using NetBeans 
+or Eclipse IDE through a Continuous Integration (CI) process. 
+Objective: 
+1. To understand the concept and workflow of Continuous Integration (CI). 
+2. To install and configure Jenkins on a local system. 
+3. To integrate Jenkins with Git and an IDE (NetBeans/Eclipse). 
+4. To automate the build, testing, and deployment of a Java or web application. 
+Problem Statement: 
+In manual deployment, developers spend significant time testing, building, and deploying code 
+after every update. Continuous Integration tools like Jenkins automate these steps, improving 
+efficiency and reducing human error. This experiment aims to implement CI using Jenkins for 
+a Java or web application. 
+Procedure: 
+1. Install Java JDK: 
+ Download and install the latest JDK. 
+ Set the JAVA_HOME environment variable. 
+2. Install Jenkins: 
+ Download Jenkins.  
+ Run Jenkins using the command: 
+java -jar jenkins.war 
+ Access Jenkins in the browser at http://localhost:8080. 
+ Unlock Jenkins using the initial admin password provided in the terminal. 
+ Install the suggested plugins during setup. 
+3. Create a Jenkins Job: 
+ Open Jenkins dashboard → New Item → Freestyle project. 
+ Name the project (e.g., “WebApp-CI-Test”). 
+ In the project configuration, link your Git repository under source code 
+Management. 
+ Specify the build steps using invoke top-level Maven targets or execute 
+shell commands. 
+4. Build and Test Application: 
+ In Jenkins, click build now to start the job. 
+ Jenkins fetches the code from the repository, compiles it, runs tests, and shows 
+build results. 
+ Observe the console output for build status (Success/Failure).
+5. Integrate with NetBeans/Eclipse (Optional): 
+ Use the Jenkins plugin available for your IDE. 
+ Configure Jenkins server details inside the IDE to trigger builds automatically 
+when code is pushed. 
+6. Deployment: 
+ Configure Jenkins to deploy the application to a local Tomcat server or any web 
+container after a successful build. 
+Output: 
+ Jenkins successfully fetches code from GitHub or local repository. 
+ Application build and testing are automated. 
+ The build status is displayed on Jenkins Dashboard (Success or Failure). 
+ Deployment is triggered automatically on successful builds. 
+Conclusion: 
+Continuous Integration using Jenkins automates the entire software build, test and 
+deployment process. It ensures faster feedback on code changes, reduces manual effort 
+and improves software reliability and development efficiency.
+
+========================================================= PROGRAM 11 =========================================================
+Aim: 
+To perform version control operations such as creating repositories, committing changes, 
+viewing history and reverting versions on a web project using Git and Mercurial. 
+Objective: 
+1. To understand the concept and importance of version control systems. 
+2. To track changes in website code and maintain multiple versions efficiently. 
+3. To learn how to create, commit and manage versions of website code using Mercurial. 
+Problem Statement: 
+Managing and tracking code changes manually during website development can lead to 
+confusion and data loss. Version Control Systems (VCS) like Mercurial and Git help 
+automate this process by keeping track of all versions of the source code, enabling developers 
+to revert, merge or synchronize changes easily. 
+Using Mercurial 
+Procedure: 
+1. Install Mercurial: 
+ Download and install from https://www.mercurial-scm.org. 
+ Verify installation:  
+hg --version 
+2. Create a Web Project Folder: 
+ Create a folder named MyWebsite. 
+ Add files such as: 
+ index.html 
+ style.css 
+3. Initialize Repository 
+hg init 
+4. Add Files to Repository:   
+hg add 
+5. Commit the Changes: 
+hg commit -m "Initial version of website" 
+6. Modify and Recommit Changes: 
+ Edit index.html (add new section or text).
+ Then run: 
+hg commit -m "Updated homepage content" 
+7. View Repository Status and History: 
+ Check modified files:  
+hg status 
+ View commit history:  
+hg log 
+8. Create a Remote Repository: 
+ Use Bitbucket (supports Mercurial) or a self-hosted repository. 
+ Link and push changes: 
+hg push <remote_URL> 
+Using Git 
+Procedure: 
+1. Install Git: 
+ Download and install Git from https://git-scm.com. 
+ Verify installation using the command:  
+git --version 
+2. Create a Web Project Folder: 
+ Create a new folder, e.g., MyWebsite. 
+ Inside it, create basic files like: 
+ index.html 
+ style.css 
+3. Initialize Git Repository: 
+ Open the terminal in the project folder and type 
+git init 
+ This creates a new local repository. 
+4. Add Files to Repository 
+git add filename 
+5. Commit the Changes: 
+git commit -m "Initial version of website" 
+6. Modify and Commit New Changes: 
+ Edit index.html (add new content). 
+ Then run: 
+git add index.html
+7. View Commit History: git log 
+8. Create a Remote Repository: 
+ Create a repository on GitHub. 
+ Link it using: 
+git remote add origin <repo_URL> 
+git push -u origin main 
+Output: 
+ Mercurial and Git are successfully managing and tracks all file changes in the website 
+project. 
+ Revision history can be viewed with commit details and authorship. 
+ Older versions can be restored easily. 
+ Source code is safely versioned and organized. 
+Conclusion: 
+Both Git and Mercurial are distributed version control systems that allow developers to track 
+and manage code changes efficiently. Git is widely popular due to its flexibility, powerful 
+branching and strong integration with platforms like GitHub. 
