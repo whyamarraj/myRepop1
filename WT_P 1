@@ -1,0 +1,391 @@
+===========LAB PROGRAM-1 Designing Static Web pages using HTML ============================================
+
+Aim: To design and develop static HTML pages of an online book store. The pages should resemble: 
+www.amazon.com. The website should consist the following pages. 
+a) Home page 
+b) Registration and user Login 
+c) User Profile Page 
+d) Books catalog 
+e) Shopping Cart 
+f) Payment by credit card 
+g) Order Conformation 
+ 
+Description: 
+A static HTML page is a web page whose content remains the same for every user and is not 
+dynamically generated. It's built using HTML, CSS, and JavaScript, with the content stored as fixed 
+files on a web server. When a user requests a static page, the server directly delivers the pre-built 
+HTML file without any server-side processing. 
+Source Code: 
+ 
+1) Index.html 
+<html> 
+<head> 
+    <title> Welcome to STUDENTS e-Book's website</title> 
+  <style> 
+      .frame { 
+         background-image: background.jpg; 
+         background-size: contain; 
+         width: 500px; 
+         height: 400px; 
+         border: 1px solid black; 
+      } 
+   </style> 
+</head> 
+<frameset rows="24%,*" > 
+    <frame name=top src="top.html" noresize frameborder=0 scrolling=no /> 
+    <frameset cols="15%,*"> 
+        <frame name="left" noresize scrolling="no" frameborder=0 src="left.html"> 
+        <frame name="right" noresize frameborder=0 src="right.html"> 
+    </frameset> 
+</frameset> 
+</html> 
+ 
+2) top.html 
+<html> 
+<head> 
+    <title> Welcome to STUDENTS e-Book's Website</title> 
+</head> 
+<body> 
+<table width="100%" align="center" cellpadding="0" cellspacing="2"> 
+<tr> 
+    <th width="20%"><img src="logo.jpg" alt="STUDENTS LIBRARY LOGO"  width="130" 
+height="150"/></th> 
+    <th colspan=4>  
+    <h1 style="color:red;">STUDENTS - WORLD BEST ONLINE EBOOKS WEBSITE</h1> 
+    </th> 
+</tr> 
+<tbody align="center" bgcolor="#e68aaa" style="font-weight:bold;font-size:18px;""> 
+<tr> 
+    <td width="20%"><hr><a href="right.html" target="right">Home</a><hr></td> 
+    <td width="20%"><hr><a href="login.html" target="right">Login</a><hr></td> 
+    <td width="20%"><hr><a href="registration.html" target="right">Registration</a><hr></td> 
+    <td width="20%"><hr><a href="userprofile.html" target="right">User Profile</a><hr></td> 
+</tr>  
+</tbody> 
+</table>  
+<hr/> 
+</body> 
+</html> 
+ 
+3) left.html 
+<html> 
+<body bgcolor="#D6E9EF"> 
+    <table align=center> 
+        <tr><td><h3>Catalogue</h3></td></tr> 
+        <tr><td><a href="cse.html" target="right">CSE</a><br><br></td></tr> 
+        <tr><td><a href="ECE.html" target="right">ECE</a><br><br></td></tr> 
+        <tr><td><a href="Mca.html" target="right">MCA</a><br><br></td></tr> 
+ <tr><td><h3>Registration</h3></td></tr> 
+ <tr><td><a href="registration.html" target="right">New User Registration</a>
+ <br><br></td></tr> 
+ <tr><td><a href="login.html" target="right">Login</a><br><br></td></tr> 
+ <tr><td><a href="userprofile.html" target="right">User Profile Updation</a>
+ <br><br></td></tr> 
+ </table> 
+</body> 
+</html> 
+4) right.html 
+<html> 
+<body><br> 
+<center> 
+    <h2>Welcome to STUDENTS e-Book's Website</h2> 
+        <p>Shopping at <font size=5>STUDENTS BOOK CENTER</font> can be both <font 
+size=5>fun</font> 
+        and <font size=5>savings</font>.</br>Shop with us in this special <font 
+        size=5>discount</font> season and save upto <font size=5>90%</font> on all your 
+        purchases.</br></p> 
+    <br/><br/><br/><br/><br/><br/><br/><br/><h4> 
+    <font color="red">(C) 2022 All rights reserved by STUDENTS ebooks 
+</body> 
+</html> 
+5) login.html 
+<html> 
+<head> 
+    <title> Welcome to STUDENTS e-Book's Website</title> 
+</head> 
+<body bgcolor="yellow"> 
+<table width="100%" align="center" cellpadding="0" cellspacing="2"> 
+<tr> 
+    <th width="20%"><img src="logo.jpg" alt="STUDENTS LIBRARY LOGO"  width="130" 
+height="150"/></th> 
+    <th colspan=4>  
+    <h1 style="color:red;">STUDENTS - WORLD BEST ONLINE EBOOKS WEBSITE</h1> 
+    </th> 
+</tr> 
+</table> 
+<center><br> 
+<h3> Login Details</h3> <br/> 
+    <form name="f1"> 
+        <table align="center" > 
+        <tr> 
+        <td> User Name : </td> 
+        <td> <input type="text" name="username"></td> 
+        </tr> 
+        <tr><td><br></td></tr> 
+        <tr> 
+        <td> Password : </td> 
+        <td> <input type="password" name="password"></td> 
+        </tr> 
+        <tr><td><br></td></tr> 
+        <tr><td></td> 
+        <td><input type="submit" value="SUBMIT"> 
+        <input type="reset" value="RESET"></td> 
+        </tr> 
+        </table> 
+    </form> 
+</center> 
+</body> 
+</html> 
+
+6) cse.html 
+<html> 
+<head> 
+    <title> Welcome to STUDENTS e-Book's website</title> 
+</head> 
+<body> 
+<center><br> 
+<h2>Computer Science and Engineering Catologue</h2> 
+    <table width=90% align="center" bgcolor="#ffe1bf"> 
+    <tbody bgcolor="#ff6600"> 
+    <th width="25%"><hr>BOOK<hr></th> 
+    <th width="35%"><hr>DETAILS<hr></th> 
+    <th width="20%"><hr>PRICE<hr></th> 
+    <th width="20%"><hr>OPTION<hr></th></tbody> 
+    <tbody align="center"> 
+    <tr> 
+    <td align="center"><img src="cbook.jpg" width="90" height="120" ></td> 
+    <td align="center"> Title: C - Programming<br> Author: E.Balaguru Swamy <br/> 
+    Publicher:Tata Mc.Grawhill</td> 
+    <td align="center">Rs. 1200/-</td> 
+    <td align="center"> <input type="button" value="Add to cart"></td> 
+    </tr> 
+<tr> 
+<td align="center"><img src="CNbook.jpg" width="90" height="120"></td> 
+<td align="center"> Title: Computer Networks<br>Author: M.Ananda Rao r<br/> 
+Publicher:ARS Publications</td> 
+<td align="center">Rs. 1000/-</td> 
+<td align="center"> <input type="button" value="Add to cart"></td> 
+</tr> 
+<tr> 
+<td align="center"><img src="javabook.jpg" width="90" height="120" ></td> 
+<td align="center"> Title: Java Programming<br/>Author: Jhanaki 
+Ramaya<br/>Publisher:Matches Publications</td> 
+<td align="center">Rs. 2300/-</td> 
+<td align="center"> <input type="button" value="Add to cart"></td> 
+</tr> 
+<tr> 
+<td align="center"><img src="WTbook.jpg" width="90" height="120" ></td> 
+<td align="center"> Title: Web Technologies<br/>Author: Uttam K.Roy <br/>Publisher:Oxpord 
+Publications</td> 
+<td align="center">Rs. 3000/-</td> 
+<td align="center"> <input type="button" value="Add to cart"></td> 
+</tr> 
+<td colspan="3"></td>  
+<td align="center"><a href="cart.html">VIEW CART</a></td></tr> 
+</tbody> 
+</table> 
+</center> 
+</body> 
+</html> 
+7) ECE.html 
+<html> 
+<head> 
+<title> Welcome to STUDENTS e-Book's website</title> 
+</head> 
+<body> 
+<center><br> 
+<h2>Electronics & Communication Engineering Catalogue </h2> 
+<table width=90% align="center" bgcolor="#c4c4ff"> 
+<tbody bgcolor="#5b5bff"> 
+<th width="25%"><hr>BOOK<hr></th> 
+<th width="35%"><hr>DETAILS<hr></th> 
+<th width="20%"><hr>PRICE<hr></th> 
+<th width="20%"><hr>OPTION<hr></th></tbody> 
+<tbody align="center"> 
+<tr> 
+<td align="center"><img src="ECE1.jpg" width="90" height="120" ></td> 
+<td align="center"> Title: Analog Digital Communications <br> Author: Meru Babu <br/> 
+Publicher:Schuem Outlines</td> 
+<td align="center">Rs. 1200/-</td> 
+<td align="center"> <input type="button" value="Add to cart"></td> 
+</tr> 
+<tr> 
+<td align="center"><img src="ECE2.jpg" width="90" height="120"></td> 
+<td align="center"> Title: Anntena Theory<br>Author: M.Dileep Kumar r<br/>Publicher:BRS 
+Publications</td> 
+<td align="center">Rs. 800/-</td> 
+<td align="center"> <input type="button" value="Add to cart"></td> 
+</tr> 
+<tr> 
+<td align="center"><img src="ECE3.jpg" width="90" height="120" ></td> 
+<td align="center"> Title: Gate Study Metireal<br/>Author: Bill Joy <br/>Publicher:Pearson 
+Publications</td> 
+<td align="center">Rs. 8200/-</td> 
+<td align="center"> <input type="button" value="Add to cart"></td> 
+</tr> 
+<td colspan="3"></td>  
+<td align="center"><a href="cart.html">VIEW CART</a></td></tr> 
+</tbody>  
+</tbody> 
+</table> 
+</center> 
+</body> 
+</html> 
+8) Mca.html 
+<html> 
+<head> 
+<title> Welcome to Students e-Book's website</title> 
+</head> 
+<body> 
+<center><br> 
+<h2> Master OF COMPUTER APPLICATIONS Catalogue </h2> 
+<table width=90% align="center" bgcolor="#bfffbf"> 
+<tbody bgcolor="#03f515"> 
+<th width="25%"><hr>BOOK<hr></th> 
+<th width="35%"><hr>DETAILS<hr></th> 
+<th width="20%"><hr>PRICE<hr></th> 
+<th width="20%"><hr>OPTION<hr></th></tbody> 
+    <tbody align="center"> 
+    <tr> 
+    <td align="center"><img src="cbook.jpg" width="90" height="120" ></td> 
+    <td align="center"> Title: Let Us C <br> Author: Yeswant kanetkar <br/> 
+    Publicher:Tata Mc.Grawhill</td> 
+    <td align="center">Rs. 4200/-</td> 
+    <td align="center"> <input type="button" value="Add to cart"></td> 
+    </tr> 
+    <tr> 
+    <td align="center"><img src="python.jpg" width="90" height="120"></td> 
+    <td align="center"> Title: Python Programming<br>Author: M.Kiran Kumar r<br/>Publicher:ARS 
+Publications</td> 
+    <td align="center">Rs. 1100/-</td> 
+    <td align="center"> <input type="button" value="Add to cart"></td> 
+    </tr> 
+    <tr> 
+    <td align="center"><img src="WTbook.jpg" width="90" height="120" ></td> 
+    <td align="center"> Title: Web Programming<br/>Author: Uttam K.Roy <br/>Publicher:Oxpord 
+Publications</td> 
+    <td align="center">Rs. 6200/-</td> 
+    <td align="center"> <input type="button" value="Add to cart"></td> 
+    </tr> 
+    <td colspan="3"></td>  
+    <td align="center"><a href="cart.html">VIEW CART</a></td></tr> 
+    </tbody> 
+    </tbody> 
+    </table> 
+</center> 
+</body> 
+</html>
+9) cart.html 
+<html> 
+<head> 
+    <title> Welcome to STUDENTS e-Book's website</title> 
+</head> 
+<body> 
+    <center> 
+    <h3>Cart</h3> 
+        <table width="90%" align="center" bgcolor="#ffe479"> 
+        <tbody bgcolor="#ff7c5b"> 
+        <tr> 
+        <th width="40%"><hr>BookName<hr></th> 
+        <th width="20%"><hr>Price<hr></th> 
+        <th width="20%"><hr>Quantity<hr></th> 
+        <th width="20%"><hr>Amount<hr></th> </tr> 
+        </tbody> 
+        <tbody align=center> 
+        <tr> <td>Java Programming </td> 
+        <td>Rs. 2300/-</td> 
+        <td>2</td> 
+        <td>Rs. 4600/-</td></tr> 
+        <tr><td>Web Technologies</td> 
+        <td>Rs. 3000/-</td> 
+        <td>1</td> 
+        <td>Rs. 3000/-</td></tr> 
+        <tr><td></td> 
+        <td><hr><font color="#996600">Total Amount:</font><hr></td> 
+        <td><hr>3<hr></td> 
+        <td><hr>Rs. 7600/-<hr></td> </tr> 
+        <tr><td></td> 
+        <td></td> 
+        <td></td> 
+        <td><input type="button" value="Pay By Credit Card" 
+onclick='window.location.assign("paybycreditcard.html")'></input><br><br></td> 
+        </tr> 
+        </tbody> 
+        </table> 
+    </center> 
+</body> 
+</html> 
+ 
+10) paybycreditcard.html 
+<!doctype html> 
+<html lang="en"> 
+ <head> 
+  <title>Payment By Credit Card</title> 
+ </head> 
+ <body> 
+  <body bgcolor="#c39bd3"> 
+<table width="100%" align="center" cellpadding="0" cellspacing="2"> 
+<tr> 
+    <th width="20%"><img src="logo.jpg" alt="STUDENTS LIBRARY LOGO"  width="130" 
+height="150"/></th> 
+    <th colspan=4>  
+    <h1 style="color:red;">STUDENTS - WORLD BEST ONLINE EBOOKS WEBSITE</h1> 
+    </th> 
+</tr></table> 
+  <br><br> 
+  <h1 align="center">Payment By Credit Card</h1><br> 
+  <table width="30%" align="center"> 
+  <tr> 
+  <td><strong>Card Number : </strong> </td> 
+  <td><input type="text" placeholder="xxxx-xxxx-xxxx-xxxx" required></input> </td> 
+  </tr> 
+  <tr> 
+  <td><br></td> 
+  </tr> 
+  <tr> 
+  <td><strong>Exp Date: </strong></td> 
+  <td><input type="text" placeholder="xx / xx" required></input></td> 
+  </tr> 
+  <tr> 
+  <td><br></td> 
+  </tr> 
+  <tr> 
+  <td><strong>CVV : </strong></td> 
+  <td><input type="password"  placeholder="xxx" required></input></td> 
+  </tr> 
+  <tr> 
+<td><br></td> 
+</tr> 
+<tr> 
+<td> 
+<strong>Name on the Card : </strong></td> 
+<td><input type="text" placeholder="Name of the card" required></input></td> 
+</tr> 
+<tr> 
+<td><br/></td> 
+</tr> 
+<tr> 
+<td colspan="2" align="center"> 
+<input type="button" value="Pay" onclick='window.location.assign("orderconf.html")'></input> 
+&nbsp;&nbsp;<input type="button" value="Cancel"></input> 
+</td> 
+</tr> 
+</table> 
+</body> 
+</html> 
+11) orderconf.html 
+<!doctype html> 
+<html lang="en"> 
+<head> 
+<title>Order Confirmation</title> 
+</head> 
+<body bgcolor="#f5b7b1"><br><br> 
+<center> 
+<h1> Thank you for your purchase!</h2><br><br> 
+<h2 style="color:#009900"> Payment Successful </h3><br> 
+<h3> Order Info :</h3> 
+<strong>Books :</strong> 3<br><br> 
+<strong>Total Amount :</strong> Rs. 7600/-<br><br> 
+</center> 
+</body> 
+</html>
