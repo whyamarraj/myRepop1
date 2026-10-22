@@ -1,0 +1,781 @@
+==============LAB PROGRAM: 2 Displaying XML contents in HTML Document =========================
+Problem Statement: Create and save an XML document on the server, which contains 10 
+users information. Write a program, which takes User Id as an input and returns the user 
+details by taking the user information from the XML document. 
+Aim: To create an XML file containing User details and connecting XML file to HTML 
+document to access the user information based on the user id given in the textbox 
+Procedure: 
+Step 1: Open text editor and create users.xml file with <users> as root element and 
+attributes <id>, <name>, <email>, <city> under <user> element tag. 
+Source code for user.xml 
+<? xml version=”1.0”?> 
+<users> 
+<user> 
+<id>1</id> 
+<name>Alice Smith</name> 
+<email>alice.s@example.com</email> 
+<city>New York</city> 
+</user> 
+<user> 
+<id>2</id> 
+<name>Bob Johnson</name> 
+<email>bob.j@example.com</email> 
+<city>Los Angeles</city> 
+</user> 
+<user> 
+<id>3</id> 
+<name>Charlie Brown</name> 
+<email>charlie.b@example.com</email> 
+<city>Chicago</city> 
+</user> 
+<user> 
+<id>4</id> 
+<name>Diana Prince</name> 
+<email>diana.p@example.com</email> 
+<city>Washington D.C.</city> 
+</user> 
+<user> 
+<id>5</id> 
+<name>Eve Adams</name> 
+<email>eve.a@example.com</email> 
+<city>Miami</city> 
+</user> 
+<user> 
+<id>6</id> 
+<name>Frank White</name> 
+<email>frank.w@example.com</email> 
+ 
+<city>Houston</city> 
+</user> 
+<user> 
+<id>7</id> 
+<name>Grace Taylor</name> 
+<email>grace.t@example.com</email> 
+<city>Seattle</city> 
+</user> 
+<user> 
+<id>8</id> 
+<name>Henry Miller</name> 
+<email>henry.m@example.com</email> 
+<city>Boston</city> 
+</user> 
+<user> 
+<id>9</id> 
+<name>Ivy Davis</name> 
+<email>ivy.d@example.com</email> 
+<city>San Francisco</city> 
+</user> 
+<user> 
+<id>10</id> 
+<name>Jack Wilson</name> 
+<email>jack.w@example.com</email> 
+<city>Denver</city> 
+</user> 
+</users> 
+ 
+Step 2: create index.html document to read the user-id value and to display the contents 
+accessed from the XML file. 
+Source code for index.html:  
+ 
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>User Details</title> 
+</head> 
+<body> 
+    <h1>Find User Details</h1> 
+    <label for="userIdInput">Enter User ID:</label> 
+    <input type="number" id="userIdInput"> 
+    <button onclick="getUserDetails()">Get Details</button> 
+    <div id="userDetails"></div> 
+ 
+    <script> 
+        function getUserDetails() { 
+            const userId = document.getElementById('userIdInput').value; 
+            const userDetailsDiv = document.getElementById('userDetails'); 
+            userDetailsDiv.innerHTML = ' '; // Clear previous results 
+            if (!userId) { 
+                userDetailsDiv.innerHTML = '<p>Please enter a User ID.</p>'; 
+                return; 
+            } 
+ 
+            const xhr = new XMLHttpRequest(); 
+            xhr.open('GET', 'users.xml', true); // Assuming users.xml is in the same directory 
+            xhr.onload = function () { 
+                if (xhr.status === 200) { 
+                    const xmlDoc = xhr.responseXML; 
+                    if (xmlDoc) { 
+                        const users = xmlDoc.getElementsByTagName('user'); 
+                        let foundUser = false; 
+                        for (let i = 0; i < users.length; i++) { 
+                            const idElement = users[i].getElementsByTagName('id')[0]; 
+                            if (idElement && idElement.textContent === userId) { 
+                                const name = users[i].getElementsByTagName('name')[0].textContent; 
+                                const email = users[i].getElementsByTagName('email')[0].textContent; 
+                                const city = users[i].getElementsByTagName('city')[0].textContent; 
+ 
+                                userDetailsDiv.innerHTML =  
+                                    <p><strong>User ID:</strong> ${userId}</p> 
+                                    <p><strong>Name:</strong> ${name}</p> 
+                                    <p><strong>Email:</strong> ${email}</p> 
+                                    <p><strong>City:</strong> ${city}</p> 
+                                ; 
+                                foundUser = true; 
+                                break; 
+                            } 
+                        } 
+                        if (!foundUser) { 
+                            userDetailsDiv.innerHTML = '<p>User not found.</p>'; 
+                        } 
+                    } else { 
+                        userDetailsDiv.innerHTML = '<p>Error parsing XML document.</p>'; 
+                    } 
+                } else { 
+                    userDetailsDiv.innerHTML = `<p>Error loading XML: ${xhr.status}</p>`; 
+                } 
+            }; 
+            xhr.onerror = function () { 
+                userDetailsDiv.innerHTML = '<p>Network error occurred while loading 
+XML.</p>'; 
+            }; 
+            xhr.send();  
+        } 
+    </script> 
+</body> 
+</html> 
+ Step 3: Save users.xml and index.html files in the htdocs folder of Xampp server. 
+ Step 4: Open Xampp server control panel and start Apache service as shown below: 
+Step 5: Open any browser and type localhost/index.html
+Result: User details from users.xml are successfully displayed in the index.html document 
+for the given user id.
+
+
+====================PROGRAM 3 PRINTING PRIME NUMBERS IN PHP===========================
+Problem Statement: Write a PHP script to print prime numbers between 1-50. 
+Aim: To write and execute a PHP script to print prime numbers between 1-50. 
+Procedure: 
+Step 1: The XAMPP server is used to test PHP pages. It works as local server. It contains a 
+MySQL database to manage or save data on a local server. 
+Step 2: Steps to install XAMPP on Windows:  
+2.1: In the web browser, visit Apache Friends and download XAMPP installer. 
+2.2: During the installation process, select the required components like MySQL, FileZilla 
+ftp server, PHP, phpMyAdmin or leave the default options and click the Next button.  
+ Choose the root directory path to set up the htdocs folder for our applications. For 
+example 'C:\xampp'. 
+ Click the Allow access button to allow the XAMPP modules from the Windows firewall. 
+ After the installation process, click the Finish button of the XAMPP Setup wizard. 
+2.3: Now the XAMPP icon is clearly visible on the right side of start menu. Show or Hide can 
+be set by using the control panel by clicking on the icon. 
+2.4: To start Apache and MySql, just click on the Start button on the control panel. 
+Step 3: Open Notepad and write the source code for printing the prime numbers  
+Source Code: 
+<?php 
+$number=1; 
+while($number <50) 
+{ 
+  $div_count=0; 
+  for ($i=1;$i<=$number;$i++) 
+  { 
+    if(($number%$i)==0) 
+    { 
+      $div_count++; 
+    } 
+  } 
+  if($div_count<3) 
+  { 
+    echo $number." , "; 
+  } 
+  $number=$number+1; 
+} 
+?> 
+ 
+Step 4: Save the file with “.php” in htdocs folder found in the path c:\xampp\htdocs. 
+Step 5: Open the Xampp control panel and ensure that Apache and MySql services are 
+changed to running state. 
+Step 6: Once the services are in running state, Open any browser and type the url: 
+http://localhost/prime.php and hit Enter.  
+Step 7: If the code does not have any syntax errors, Output is displayed in the browser.
+Result: Prime numbers from 1-50 is successfully printed in PHP using XAMPP web server.
+
+================Program 4 STRING FUNCTIONS IN PHP ======================
+
+Problem Statement: Write a PHP script to perform the following: 
+a. Find the length of a string. b. Count no of words in a string. c. Reverse a string. d. 
+Search for a specific string. 
+Aim: To write and execute a PHP String handling functions to find the length of a String, 
+Count no of words, Reverse of a string and search a specific string. 
+Procedure: 
+Step 1: The XAMPP server is used to test PHP pages. It works as local server. It contains a 
+MySQL database to manage or save data on a local server. 
+Step 2: Open Notepad and write the source code for performing String handling functions.  
+Source Code: 
+<?php 
+// Input string 
+$string = "PHP is a popular general-purpose scripting language."; 
+ 
+// a) Find the length of the string 
+$length = strlen($string); 
+echo "Length of the string: $length \n"; 
+echo "<br/>"; 
+// b) Count the number of words in the string 
+$wordCount = str_word_count($string); 
+echo "Number of words in the string: $wordCount\n";echo "<br/>"; 
+ 
+// c) Reverse the string 
+$reversedString = strrev($string); 
+echo "Reversed string: $reversedString \n"; 
+echo "<br/>"; 
+ 
+// d) Search for a specific string 
+$searchString = "popular"; 
+if (strpos($string, $searchString) !== false) { 
+    echo "The string '$searchString' was found in the input string.\n";echo "<br/>"; 
+} else { 
+    echo "The string '$searchString' was not found in the input string.\n";echo "<br/>"; 
+} 
+?> 
+ 
+Step 3: Save the file with “.php” in htdocs folder found in the path c:\xampp\htdocs. 
+Step 4: Open the Xampp control panel and ensure that Apache and MySql services are 
+changed to running state. 
+Step 5: Once the services are in running state, Open any browser and type the url: 
+http://localhost/stringprog.php and hit Enter.  
+Step 7: If the code does not have any syntax errors, Output is displayed in the browser.
+Result: String handling functions are successfully executed and the output is displayed in 
+PHP. 
+
+======================= LAB PROGRAM: 5 MERGING AND SORTING ARRAYS IN PHP===================================
+Problem Statement: 
+Write a PHP script to merge two arrays and sort them as numbers, in descending order.
+Aim: To initialize two arrays and merge them and sort an array in descending order.
+Procedure:
+Step 1: The XAMPP server is used to test PHP pages. It works as local server. It contains a MySQL database to manage or save data on a local server.
+Step 2: Open Notepad and write the source code for performing String handling functions. 
+Source Code:
+<html>
+<head>
+    <title>Merge and sort two arrays in PHP</title>
+</head>
+<body>
+<?php
+    // creating arrays
+    $f_array=array(6,9,0,8,1,2);
+    $s_array=array(4,7,5,3);
+    // to display array elements
+    echo "Elements of First Array are : <br> ";
+    for($i = 0;$i < count($f_array);$i++) {
+        echo $f_array[$i]." ";
+    }
+    echo "<br>Elements ofSecond Array are : <br>";
+    for($i = 0;$i < count($s_array);$i++) {
+        echo $s_array[$i]." ";
+    }
+    // to merge two array elements
+    $merge_array=array_merge($f_array,$s_array);
+
+    echo "<br>Elements of merged array before sorting are :<br>";
+    for($i = 0;$i < count($merge_array);$i++) {
+        echo $merge_array[$i]." ";
+    }
+    // to srot the elements of the array in descending order.
+    rsort($merge_array);
+
+    echo "<br>Elements of merged array after sorting are :<br>";
+    for($i = 0;$i < count($merge_array);$i++) {
+        echo $merge_array[$i]." ";
+    }
+?>
+</body>
+</html>
+Step 3: Save the file with “.php” in htdocs folder found in the path c:\xampp\htdocs.
+Step 4: Open the Xampp control panel and ensure that Apache and MySql services are changed to running state.
+Step 5: Once the services are in running state, Open any browser and type the url: http://localhost/Arraysort.php and hit Enter. 
+Step 7: If the code does not have any syntax errors, Output is displayed in the browser.
+Result: Two arrays have been merged in to single array and the merged array has been sorted in descending order successfully.
+
+===============Program 6 FILE HANDLING OPERATIONS IN PHP =============================================
+
+Problem Statement: 
+Write a PHP script that reads data from one file and write into another file.
+ Aim: To create two files and write the contents in file, read and display the contents of the file. Copy the contents from file1 to another file2 and display the contents of file 2.
+Procedure:
+Step 1: The XAMPP server is used to test PHP pages. It works as local server. It contains a MySQL database to manage or save data on a local server.
+Step 2: Open Notepad and write the source code for performing String handling functions. 
+Source Code:
+<html>
+<head>
+    <title>Reads data from one file and write into another file in PHP</title>
+</head>
+<body>
+
+<?php
+
+// Define the file name
+$filename = "my_file.txt";
+
+// 1. Writing to a file
+// Open the file in write mode ("w"). If the file doesn't exist, it will be created.
+// If it exists, its content will be truncated (emptied).
+$file_handle_write = fopen($filename, "w");
+
+// Check if the file was opened successfully for writing
+if ($file_handle_write) {
+    $content_to_write = "Hello, this is a test line.\n";
+    $content_to_write .= "This is the second line.";
+
+    // Write the content to the file
+    fwrite($file_handle_write, $content_to_write);
+
+    // Close the file handle
+    fclose($file_handle_write);
+    echo "Content successfully written to '$filename'.\n";
+} else {
+    echo "Error: Unable to open '$filename' for writing.\n";
+}
+
+// 2. Reading from a file
+// Open the file in read mode ("r")
+$file_handle_read = fopen($filename, "r");
+// Check if the file was opened successfully for reading
+if ($file_handle_read) {
+    // Read the entire content of the file
+    $read_content = fread($file_handle_read, filesize($filename));
+
+    // Close the file handle
+    fclose($file_handle_read);
+
+    echo "\nContent read from '$filename':\n";
+    echo $read_content;
+} else {
+    echo "Error: Unable to open '$filename' for reading.\n";
+}
+
+    // filename to open
+    $fname = "my_file.txt";
+    // to open file for reading
+    $fptr = fopen($fname, "r");
+    // to read content of the file
+    $content=fread($fptr,filesize($fname));
+    // to open for writing
+    $fptw = fopen("file2.txt", "w");
+    // to write content into another file
+    fwrite($fptw,$content);
+    echo "<strong>The content copied in file2 is:</strong> <br>". $content;
+    //close files 
+    fclose($fptr);
+    fclose($fptw);
+?>
+</body>
+</html> 
+Step 3: Save the file with “.php” in htdocs folder found in the path c:\xampp\htdocs.
+Step 4: Open the Xampp control panel and ensure that Apache and MySql services are changed to running state.
+Step 5: Once the services are in running state, Open any browser and type the url: http://localhost/filehandling.php and hit Enter. 
+Step 7: If the code does not have any syntax errors, Output is displayed in the browser
+Result: Two files have been created and the contents are copied from opne file to another file and the results are displayed successfully.
+
+========================LAB PROGRAM: 7
+Converting static web pages into Dynamic web pages using Servlets and cookies====================================
+
+Problem Statement: 
+Install TOMCAT web server. Convert the static web pages into dynamic web pages using servlets and cookies.
+Aim: To convert the static web pages into dynamic web pages using servlets and cookies.
+Procedure:
+Step1: We will create a html form for entering the user name, password and card ID. 
+Step 2: From the above HTML form, the servlet program is invoked in which the validity of the user name, password and card id is checked, if it is a valid user then the welcome message will be displayed otherwise the “invalid user” message will be displayed. In this servlet we set the cookies in which the current user name is stored. 
+Step 3: Compile the above servlet Login servlet.java and copy its class file in tomcat’s folder at c:\tomcatdirectory\webapps\examples\WEB-INF\classes. 
+Step 4: Then edit the web.xml in WEB-INF folder. We must store the user information such as user name, and card id in the web.xml using init-param. 
+Step 5: On successful login, the information from the cookie is checked and shopping cart page for corresponding user can be displayed.
+
+Step 6: Compile the above servlet LoginSuccess.java and copy its class file in the tomcat's folder at c:\tomcatdirectory\webapps\examples\WEB-INF\classes. 
+Step 7: Then edit the web.xml in WEB-INF folder. 8. Start tomcat web server. Open the web browser and display the login form created in step1. 
+PROGRAM: 
+1)	Loginform.html 
+<!DOCTYPE html>
+<html>
+<head>
+<body>
+<form action="http://localhost:8080/DynamicServlet/LoginServlet" method="post">
+Enter username:
+<input type="text" value="" name="User"><br><br>
+enter password:
+<input type="password" value="" name="password"><br><br>
+enter card ID:
+<input type="text" value="" name="CardID"><br><br>
+<input type="submit" value="login">
+</form>
+</body>
+</html>
+2)	LoginServlet.java
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class LoginServlet extends HttpServlet
+{
+protected void doPost(HttpServletRequest req, HttpServletResponse res) throws
+ ServletException,IOException
+{
+res.setContentType("text/html");
+PrintWriter out=res.getWriter();
+String usr=req.getParameter("User");
+String pwd=req.getParameter("password");
+String card=req.getParameter("CardID");
+boolean flag=true;
+String[] userID=getInitParameter("usernames").split(",");
+String[] password=getInitParameter("passwords").split(",");
+String[] cardids=getInitParameter("cardIDs").split(",");
+int i;
+for(i=0;i<userID.length;i++)
+{
+if(userID[i].equals(usr) && password[i].equals(pwd)&&cardids[i].equals(card))
+{
+flag=false;
+Cookie cookie1=new Cookie("CurrentUser",usr);
+Cookie cookie2=new Cookie("CreditCard",card);
+res.addCookie(cookie1);
+res.addCookie(cookie2);
+out.println("<h2>Welcome "+usr+"</h2><hr>");
+out.println("<h2>Select the book you would like to purchase<h2><hr>");
+out.println("<form action='LoginSuccess'>");
+out.println("<input type=radio name='book' checked value='Let us C'/>Let us C<br>");
+out.println("<input type=radio name='book' value='Exploring Python'/>Exploring Python<br>");
+out.println("<input type=radio name='book' value='Mastering C'/>Mastering C<br>");
+out.println("<input type=submit value='purchase'><hr>");
+}
+}
+if(flag==true)
+{
+out.println("<h4>Invalid user name or password or card number,please try again by clicking following link</h4>");
+out.println("<a href='LoginForm.html'>"+"LoginForm.html");
+  }
+ }
+}
+3)	LoginSuccess.java
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class LoginSuccess extends HttpServlet
+{
+protected void doGet(HttpServletRequest req,HttpServletResponse res) throws
+ServletException,IOException
+{
+Cookie[] mycookie=req.getCookies();
+res.setContentType("text/html");
+PrintWriter out=res.getWriter();
+String book=req.getParameter("book");
+out.print("<h2>welcome "+mycookie[0].getValue()+"</h2><hr>");
+out.print("<h3>Thank you for purchasing book:"+book+"</h3><hr>");
+out.print("<h3>Rs.250 debited from credit card: "+mycookie[1].getValue());
+out.close();
+}
+}
+4. web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+<servlet>
+<init-param>
+<param-name>usernames</param-name>
+<param-value> indhu,abc,xyz</param-value>
+</init-param>
+<init-param>
+<param-name>passwords</param-name>
+<param-value>indhu,abc,xyz</param-value>
+</init-param>
+<init-param>
+<param-name>cardIDs</param-name>
+<param-value>111111,222222,333333</param-value>
+</init-param>
+<servlet-name>LoginServlet</servlet-name>
+<servlet-class>LoginServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>LoginServlet</servlet-name>
+<url-pattern>/LoginServlet</url-pattern>
+</servlet-mapping>
+<servlet>
+<servlet-name>LoginSuccess</servlet-name>
+<servlet-class>LoginSuccess</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>LoginSuccess</servlet-name>
+<url-pattern>/LoginSuccess</url-pattern>
+</servlet-mapping>
+</web-app>
+Result: The static web pages are hence converted in to dynamic web pages using Servlets and cookies.
+
+=================LAB PROGRAM: 8
+Converting static web pages into Dynamic web pages using JSP and JDBC===================================
+Problem Statement: 
+Install TOMCAT web server. Convert the static web pages into dynamic web pages using JSP and create a database with user information and books information. The books catalogue should be dynamically loaded from the database. Follow the MVC architecture while doing the website.
+Aim: To convert the static web pages into dynamic web pages using JSP and JDBC.
+Prerequisites
+•	An Oracle database (e.g., Oracle 11g, 12c) up and running.
+•	A Java Development Kit (JDK) installed.
+•	An application server, such as Apache Tomcat, to run the JSP.
+Procedure:
+Step1: Get and install the Oracle JDBC driver
+You must download the appropriate JDBC driver (a .jar file) for your version of Oracle and Java. 
+1.	Download the driver: Visit the Oracle website to download the latest ojdbc.jar* file.
+2.	Add the driver to your project: Copy the ojdbc*.jar file into the WEB-INF/lib folder of your web application. This ensures the application server can find and load the driver.
+Step 2: Create your Database Table (if not already existing).
+users table:
+Create table users(
+User_id varchar2(50) not null primary key;
+Password  varchar2(50 not null));
+
+book_catalogue:
+
+Create table book_catalogue(
+book_id number not null primary key, 
+title varchar2(100) not null,
+author varchar2(100),
+published_year number);
+
+Step 3: Set up your web application in Tomcat
+1.	Create a web application folder: Navigate to your Tomcat installation directory, typically C:\apache-tomcat...\webapps or /usr/local/apache-tomcat/webapps.
+2.	Create a new directory for your project, for example, myjsp.
+3.	Inside your project directory (myjsp), create the standard directory structure: WEB-INF/lib.
+4.	Paste the ojdbc*.jar file into the WEB-INF/lib folder.
+Step 4: Create the HTML login form
+This HTML file will collect the user's username and password.
+Login.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h2>User Login</h2>
+    <form action="validateLogin.jsp" method="post">
+        Username: <input type="text" name="userid" required><br><br>
+        Password: <input type="password" name="password" required><br><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
+Step 5: Create the JSP validation page
+The ValidateLogin.jsp page will receive the user's input, connect to the Oracle database, and check if the credentials are valid and display the list of books from the database. It is displayed only after a successful login.
+<%@page import="java.sql.*"%>
+<%@page import="javax.sql.*"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Catalogue</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+<%
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+ResultSet rs = null;
+    String userid = request.getParameter("userid");
+    String password = request.getParameter("password");
+    boolean isValidUser = false;
+    
+    // Database connection details
+    String dbURL = "jdbc:oracle:thin:@localhost:1521:xe"; // Replace with your Oracle SID and port
+    String dbUser = "system"; // Replace with your database username
+    String dbPassword = "tiger"; // Replace with your database password
+    
+    try {
+        // Load the Oracle JDBC driver
+        Class.forName("oracle.jdbc.driver.OracleDriver");
+        
+        // Establish the connection
+        conn = DriverManager.getConnection(dbURL, dbUser, dbPassword);
+        
+        // Validate user credentials
+        String userQuery = "SELECT user_id FROM users WHERE user_id = ? AND password = ?";
+        pstmt = conn.prepareStatement(userQuery);
+        pstmt.setString(1, userid);
+        pstmt.setString(2, password);
+        rs = pstmt.executeQuery();
+        
+        if (rs.next()) {
+            isValidUser = true;
+            session.setAttribute("username", userid); // Store user in session
+        }
+        
+        rs.close();
+        pstmt.close();
+        
+        if (isValidUser) {
+            out.println("<h2>Welcome, " + userid + "! Here is the book catalogue.</h2>");
+            
+            // Display the book catalogue
+            String bookQuery = "SELECT book_id, title, author, published_year FROM book_catalogue ORDER BY title";
+            pstmt = conn.prepareStatement(bookQuery);
+            rs = pstmt.executeQuery();
+            
+            out.println("<table>");
+            out.println("<tr><th>Book ID</th><th>Title</th><th>Author</th><th>Published Year</th></tr>");
+while(rs.next()){
+                out.println("<tr>");
+                out.println("<td>" + rs.getInt("book_id") + "</td>");
+                out.println("<td>" + rs.getString("title") + "</td>");
+                out.println("<td>" + rs.getString("author") + "</td>");
+                out.println("<td>" + rs.getInt("published_year") + "</td>");
+                out.println("</tr>");
+            }
+            out.println("</table>");
+            
+        } else {
+            out.println("<h2>Invalid username or password.</h2>");
+            out.println("<a href='login.html'>Try again</a>");
+        }
+        
+    } catch (ClassNotFoundException e) {
+        out.println("<h3>JDBC Driver not found.</h3>");
+        out.println(e.getMessage());
+    } catch (SQLException e) {
+        out.println("<h3>Database error occurred.</h3>");
+        out.println(e.getMessage());
+    } finally {
+        // Close resources
+        try { if (rs != null) rs.close(); } catch (SQLException e) {}
+        try { if (pstmt != null) pstmt.close(); } catch (SQLException e) {}
+        try { if (conn != null) conn.close(); } catch (SQLException e) {}
+    }
+%>
+</body>
+</html>
+
+Step 6: Deploy and run the application.
+1.	Start Tomcat: Use the startup.bat (Windows) or startup.sh (Unix) script in your Tomcat bin directory.
+2.	Start Oracle: Keep the Oracle database in the running state to connect.
+3.	Access the JSP page: Open a web browser and navigate to the URL for your application. If you are running Tomcat on your local machine with default settings, the URL will be http://localhost:8088/MyJspProject/Login.html.
+4.	You should see book catalogue displayed in the tabulated manner once the user is authenticated.
+Result: The static web pages are converted to dynamic web pages using jsp and jdbc is used for displaying the book catalogue information and for user authentication successfully.
+
+==================LAB PROGRAM: 9  Validating the HTML form using Javascript====================================
+Problem Statement: Design a sign up form validating username, password, phone number and Mail-Id using JavaScript.
+
+AIM: To design a sign up form validating username, password, phone number and Mail-Id
+using JavaScript.
+Procedure:
+It is important to validate the form submitted by the user because it can have inappropriate
+values. So, validation is must to authenticate user.
+JavaScript provides facility to validate the form on the client-side so data processing will be
+faster than server-side validation. JavaScript provides a way to validate form's data on the
+client's computer before sending it to the web server. Form validation generally performs two
+functions.
+•	Basic Validation − First of all, the form must be checked to make sure all the mandatory fields are filled in. It would require just a loop through each field in the form and check for data.
+•	Data Format Validation − Secondly, the data that is entered must be checked for correct form and value. Your code must include appropriate logic to test correctness of data.
+Validation rules to be performed:
+1)The username must be minimum of six characters length
+2) Password must be eight characters length.
+3) Appropriate format of email-Id must be entered in the form.
+4) Only numbers should be entered under phone number and exactly ten-digit number should be accepted. 
+Program Code:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sign Up Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input[type="text"], input[type="password"], input[type="email"], input[type="tel"] {
+            width: 100%; padding: 8px; box-sizing: border-box;
+        }
+        .error { color: red; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h1>Sign Up</h1>
+    <form id="signupForm">
+        <div class="form-group">
+<label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <div class="error" id="usernameError"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <div class="error" id="passwordError"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+            <div class="error" id="phoneError"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email ID:</label>
+            <input type="email" id="email" name="email" required>
+            <div class="error" id="emailError"></div>
+        </div>
+
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            let isValid = true;
+
+            // Username validation (e.g., at least 3 characters)
+            const username = document.getElementById('username');
+            const usernameError = document.getElementById('usernameError');
+            if (username.value.length < 3) {
+                usernameError.textContent = 'Username must be at least 3 characters long.';
+                isValid = false;
+            } else {
+                usernameError.textContent = '';
+            }
+
+            // Password validation (e.g., at least 6 characters)
+            const password = document.getElementById('password');
+            const passwordError = document.getElementById('passwordError');
+            if (password.value.length < 6) {
+                passwordError.textContent = 'Password must be at least 6 characters long.';
+                isValid = false;
+            } else {
+                passwordError.textContent = '';
+            }
+
+            // Phone number validation (e.g., 10 digits)
+            const phone = document.getElementById('phone');
+            const phoneError = document.getElementById('phoneError');
+            const phoneRegex = /^\d{10}$/; // Assumes a 10-digit phone number
+            if (!phoneRegex.test(phone.value)) {
+                phoneError.textContent = 'Please enter a valid 10-digit phone number.';
+                isValid = false;
+            } else {
+                phoneError.textContent = '';
+            }
+
+            // Email validation
+            const email = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value)) {
+                emailError.textContent = 'Please enter a valid email address.';
+                isValid = false;
+            } else {
+                emailError.textContent = '';
+            }
+
+            if (isValid) {
+                alert('Sign up successful!'); // Or submit the form data to a server
+                this.submit(); // Uncomment to actually submit the form after validation
+            }
+        });
+    </script>
+</body>
+</html>
+Result: Hence a sign up form is designed implementing appropriate validations on username, password, Email and phone number.
+
+
+
+
+
+
+
