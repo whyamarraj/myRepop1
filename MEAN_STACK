@@ -1,0 +1,50 @@
+Aim:
+To develop a Node.js program that demonstrates the use of custom modules, built-in modules, npm packages, 
+file handling, and error handling using try-catch.
+
+Description:
+This Node.js program demonstrates how to use different types of modules in a Node.js application. 
+It imports a custom calculator module to perform addition, subtraction, multiplication, and division. 
+The built-in fs (File System) module is used to create, write, and read a text file.
+The program also uses the external Lodash npm package to sort an array and find its maximum and minimum values. 
+A try-catch block is included to handle runtime errors, such as division by zero. Overall, the program provides a simple example of 
+modules, npm packages, file handling, and error handling in Node.js.
+
+// calculator.js
+exports.add = (a, b) => a + b;
+exports.subtract = (a, b) => a - b;
+exports.multiply = (a, b) => a * b; 
+exports.divide = (a, b) => {
+    if (b === 0) {
+        throw new Error("Cannot divide by zero");
+    }
+    return a / b;
+};
+const calc = require('./calculator');
+// Import built-in module
+const fs = require('fs');
+// Import npm package
+const _ = require('lodash');
+try {
+    console.log("Calculator Operations");
+    console.log("----------------------");
+    console.log("Addition:", calc.add(20, 10));
+    console.log("Subtraction:", calc.subtract(20, 10));
+    console.log("Multiplication:", calc.multiply(20, 10));
+    console.log("Division:", calc.divide(20, 10));
+    // Uncomment to test error handling
+    // console.log(calc.divide(20, 0));
+    // File handling
+    fs.writeFileSync("result.txt", "Node.js Modules Example");
+     let data = fs.readFileSync("result.txt", "utf8");
+    console.log("\nFile Content:");
+    console.log(data);
+    // Lodash package
+    let numbers = [15, 8, 22, 3, 17];
+    console.log("\nArray:", numbers);
+    console.log("Sorted:", _.sortBy(numbers));
+    console.log("Maximum:", _.max(numbers));
+    console.log("Minimum:", _.min(numbers));
+} catch (error) {
+    console.log("Error:", error.message);
+}
