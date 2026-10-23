@@ -151,6 +151,7 @@ for the given user id.
 
 
 ====================PROGRAM 3 PRINTING PRIME NUMBERS IN PHP===========================
+
 Problem Statement: Write a PHP script to print prime numbers between 1-50. 
 Aim: To write and execute a PHP script to print prime numbers between 1-50. 
 Procedure: 
@@ -169,26 +170,23 @@ be set by using the control panel by clicking on the icon.
 2.4: To start Apache and MySql, just click on the Start button on the control panel. 
 Step 3: Open Notepad and write the source code for printing the prime numbers  
 Source Code: 
-<?php 
-$number=1; 
-while($number <50) 
-{ 
-  $div_count=0; 
-  for ($i=1;$i<=$number;$i++) 
-  { 
-    if(($number%$i)==0) 
-    { 
-      $div_count++; 
-    } 
-  } 
-  if($div_count<3) 
-  { 
-    echo $number." , "; 
-  } 
-  $number=$number+1; 
-} 
-?> 
- 
+<?php
+$number = 1;
+while ($number <= 50) {
+    $div_count = 0;
+
+    for ($i = 1; $i <= $number; $i++) {
+        if ($number % $i == 0) {
+            $div_count++;
+        }
+    }
+
+    if ($div_count == 2) {
+        echo $number . " , ";
+    }
+    $number++;
+}
+?>
 Step 4: Save the file with “.php” in htdocs folder found in the path c:\xampp\htdocs. 
 Step 5: Open the Xampp control panel and ensure that Apache and MySql services are 
 changed to running state. 
